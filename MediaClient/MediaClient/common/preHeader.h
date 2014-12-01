@@ -18,3 +18,5 @@
 
 #define DEVICE_HEIGHT ([UIScreen mainScreen].bounds.size.height)
 #define DEVICE_WIDTH  ([UIScreen mainScreen].bounds.size.width)
+#define DEVICE_STATUS_HEIGHT (20)
+#define DEVICE_NAVI_HEIGHT (44)

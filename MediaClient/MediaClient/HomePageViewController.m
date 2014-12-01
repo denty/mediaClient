@@ -20,18 +20,16 @@
     [super viewDidLoad];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
-    self.menu_tableView = [[RotatedTableView alloc] initWithFrame:CGRectMake(0, 0, DEVICE_WIDTH, 120) style:UITableViewStylePlain];
+    self.menu_tableView = [[RotatedTableView alloc] initWithFrame:CGRectMake(0, 0, DEVICE_WIDTH, 60) style:UITableViewStylePlain];
     [self.menu_tableView setDelegate:self];
     [self.menu_tableView setDataSource:self];
-    [self.menu_tableView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
     [self.menu_tableView setBackgroundColor:[UIColor orangeColor]];
     [self.view addSubview:self.menu_tableView];
 
     
-    self.contextHolder_tableView = [[RotatedTableView alloc] initWithFrame:CGRectMake(0, 56 ,DEVICE_WIDTH, DEVICE_HEIGHT-(self.menu_tableView.frame.size.height-64)) style:UITableViewStylePlain];
+    self.contextHolder_tableView = [[RotatedTableView alloc] initWithFrame:CGRectMake(0, 60 ,DEVICE_WIDTH, DEVICE_HEIGHT-self.menu_tableView.frame.size.height-DEVICE_NAVI_HEIGHT-DEVICE_STATUS_HEIGHT) style:UITableViewStylePlain];
     [self.contextHolder_tableView setDelegate:self];
     [self.contextHolder_tableView setDataSource:self];
-    [self.contextHolder_tableView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
     [self.contextHolder_tableView setBackgroundColor:[UIColor orangeColor]];
     [self.contextHolder_tableView setPagingEnabled:YES];
     [self.view addSubview:self.contextHolder_tableView];
@@ -67,7 +65,7 @@
         if (cell == nil) {
             cell = [[HomePageContextCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdenty];
         }
-        [cell.context_tableView setFrame:CGRectMake(0, 0, DEVICE_WIDTH, DEVICE_HEIGHT-(self.menu_tableView.frame.size.height-64))];
+        [cell.context_tableView setFrame:CGRectMake(0, 0, DEVICE_WIDTH, DEVICE_HEIGHT-self.menu_tableView.frame.size.height-DEVICE_STATUS_HEIGHT-DEVICE_NAVI_HEIGHT)];
         [cell.context_tableView setBackgroundColor:[UIColor whiteColor]];
         return cell;
     }
