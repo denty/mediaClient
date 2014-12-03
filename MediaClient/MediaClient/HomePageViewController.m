@@ -64,6 +64,7 @@
         {
             [cell.contentView setBackgroundColor:[UIColor whiteColor]];
         }
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         return cell;
     }
     else if (tableView == self.contextHolder_tableView)
@@ -75,6 +76,7 @@
         }
         [cell.context_tableView setFrame:CGRectMake(0, 0, DEVICE_WIDTH, DEVICE_HEIGHT-self.menu_tableView.frame.size.height-DEVICE_STATUS_HEIGHT-DEVICE_NAVI_HEIGHT)];
         [cell.context_tableView setBackgroundColor:[UIColor whiteColor]];
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         return cell;
     }
     return [[UITableViewCell alloc] init];
@@ -103,7 +105,16 @@
     return 0;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (tableView == self.menu_tableView) {
+        NSLog(@"%d",indexPath.row);
+        [self contextHolderTableViewScrollWithIndex:indexPath];
+        m_selectPagePath = indexPath;
+    }
+}
 
+#pragma mark - scrollViewDelegate
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     if (scrollView == self.contextHolder_tableView) {
@@ -118,6 +129,12 @@
 - (void)menuTabelViewScrollWithIndex:(NSIndexPath *) indexPath
 {
     [self.menu_tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+    [self.menu_tableView reloadData];
+}
+
+- (void)contextHolderTableViewScrollWithIndex:(NSIndexPath *) indexPath
+{
+    [self.contextHolder_tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
     [self.menu_tableView reloadData];
 }
 @end
