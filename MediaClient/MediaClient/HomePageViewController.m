@@ -10,7 +10,9 @@
 #import "HomePageContextCell.h"
 
 @interface HomePageViewController ()
-
+{
+    NSIndexPath *m_selectPagePath;
+}
 @end
 
 @implementation HomePageViewController
@@ -56,6 +58,12 @@
         [cell.contentView setBackgroundColor:[UIColor orangeColor]];
         [cell.layer setBorderColor:[UIColor blackColor].CGColor];
         [cell.layer setBorderWidth:0.5f];
+        if (m_selectPagePath == nil&&indexPath.row == 0) {
+            [cell.contentView setBackgroundColor:[UIColor whiteColor]];
+        }else if(m_selectPagePath.row == indexPath.row)
+        {
+            [cell.contentView setBackgroundColor:[UIColor whiteColor]];
+        }
         return cell;
     }
     else if (tableView == self.contextHolder_tableView)
@@ -87,7 +95,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (tableView == self.menu_tableView) {
-        return 60;
+        return DEVICE_WIDTH/4;
     }
     if (tableView == self.contextHolder_tableView) {
         return DEVICE_WIDTH;
@@ -95,4 +103,21 @@
     return 0;
 }
 
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    if (scrollView == self.contextHolder_tableView) {
+        UITableViewCell * cell = [[self.contextHolder_tableView visibleCells] lastObject];
+        NSIndexPath *indexPath = [self.contextHolder_tableView indexPathForCell:cell];
+        NSLog(@"%d",indexPath.row);
+        [self menuTabelViewScrollWithIndex:indexPath];
+        m_selectPagePath = indexPath;
+    }
+}
+
+- (void)menuTabelViewScrollWithIndex:(NSIndexPath *) indexPath
+{
+    [self.menu_tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+    [self.menu_tableView reloadData];
+}
 @end
