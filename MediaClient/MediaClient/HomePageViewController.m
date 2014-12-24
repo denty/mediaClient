@@ -20,7 +20,7 @@
 #pragma mark - liftCycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.edgesForExtendedLayout = UIRectEdgeNone;//ios7+ 适配
     
     self.menu_tableView = [[RotatedTableView alloc] initWithFrame:CGRectMake(0, 0, DEVICE_WIDTH, 60) style:UITableViewStylePlain];
     [self.menu_tableView setDelegate:self];
