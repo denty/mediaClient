@@ -12,6 +12,7 @@
 @interface HomePageViewController ()
 {
     NSIndexPath *m_selectPagePath;
+    NSIndexPath *m_lastContext_holderPagePath;
 }
 @end
 
@@ -65,6 +66,7 @@
             [cell.contentView setBackgroundColor:[UIColor whiteColor]];
         }
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        NSLog(@"menu");
         return cell;
     }
     else if (tableView == self.contextHolder_tableView)
@@ -77,6 +79,8 @@
         [cell.context_tableView setFrame:CGRectMake(0, 0, DEVICE_WIDTH, DEVICE_HEIGHT-self.menu_tableView.frame.size.height-DEVICE_STATUS_HEIGHT-DEVICE_NAVI_HEIGHT)];
         [cell.context_tableView setBackgroundColor:[UIColor whiteColor]];
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        NSLog(@"contextHolder");
+        m_lastContext_holderPagePath = indexPath;
         return cell;
     }
     return [[UITableViewCell alloc] init];
@@ -134,7 +138,27 @@
 
 - (void)contextHolderTableViewScrollWithIndex:(NSIndexPath *) indexPath
 {
-    [self.contextHolder_tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+    if (m_lastContext_holderPagePath.row>indexPath.row) {
+//        向左
+        NSIndexPath *tempIndexPath = [NSIndexPath indexPathForRow:m_lastContext_holderPagePath.row-1 inSection:m_lastContext_holderPagePath.section];
+        [self.contextHolder_tableView scrollToRowAtIndexPath:tempIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+        [self performSelector:@selector(scrollContextTablViewWithAnimation:) withObject:indexPath afterDelay:0.25];
+    }else if(m_lastContext_holderPagePath.row<indexPath.row)
+    {
+//        向右
+        NSIndexPath *tempIndexPath = [NSIndexPath indexPathForRow:m_lastContext_holderPagePath.row+1 inSection:m_lastContext_holderPagePath.section];
+        [self.contextHolder_tableView scrollToRowAtIndexPath:tempIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+        [self performSelector:@selector(scrollContextTablViewWithAnimation:) withObject:indexPath afterDelay:0.25];
+    }else
+    {
+        [self.contextHolder_tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+        [self.menu_tableView reloadData];
+    }
+}
+
+- (void)scrollContextTablViewWithAnimation:(NSIndexPath *) indexPath
+{
+    [self.contextHolder_tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
     [self.menu_tableView reloadData];
 }
 @end
