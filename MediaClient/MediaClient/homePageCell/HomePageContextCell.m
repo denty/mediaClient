@@ -51,7 +51,7 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdenty];
     }
-    [cell.textLabel setText:[NSString stringWithFormat:@"%d",indexPath.row]];
+    [cell.textLabel setText:[NSString stringWithFormat:@"%ld",(long)indexPath.row]];
     [cell.textLabel setTextAlignment:NSTextAlignmentCenter];
     [cell.contentView setBackgroundColor:[UIColor orangeColor]];
     [cell.layer setBorderColor:[UIColor blackColor].CGColor];
